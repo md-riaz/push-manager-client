@@ -1,34 +1,56 @@
 <script>
 	import { goto } from '$app/navigation';
+	import Spinner from '../components/spinner.svelte';
+	import { onMount } from 'svelte';
+	import { BASE_API_URI } from '$lib/constants';
 
 	let email = '',
 		password = '',
-		rememberme = false;
+		rememberme = false,
+		requesting = false;
 
-	const API_ENDPOINT = 'http://localhost:3001/api/auth/login';
+	const API_ENDPOINT = `${BASE_API_URI}/auth/login`;
 
 	const handleLogin = async () => {
-		const req = await fetch(API_ENDPOINT, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email,
-				password,
-				rememberme
-			})
-		});
+		try {
+			requesting = true;
+			const req = await fetch(API_ENDPOINT, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email,
+					password,
+					rememberme
+				})
+			});
 
-		const res = await req.json();
+			if (!req.ok) {
+				throw new Error(req.statusText);
+			}
 
-		if (res.error === 0) {
-			localStorage.setItem('authToken', res.token);
-			goto('/dashboard');
-		} else {
-			alert(res.message);
+			const res = await req.json();
+
+			if (res.error === 0) {
+				localStorage.setItem('authToken', res.token);
+				goto('/dashboard');
+			} else {
+				alert(res.message);
+			}
+		} catch (e) {
+			alert(e.message);
+		} finally {
+			requesting = false;
 		}
 	};
+
+	// if has auth token then redirect to dashboard
+	onMount(async () => {
+		if (localStorage.getItem('authToken')) {
+			goto('/dashboard');
+		}
+	});
 </script>
 
 <svelte:head>
@@ -36,7 +58,9 @@
 </svelte:head>
 
 <section class="grid md:grid-cols-2">
-	<div class="hidden bg-indigo-600 md:block" />
+	<div class="hidden bg-indigo-600 md:flex min-h-screen flex-col justify-center">
+		<img src="./node-push.png" alt="" width="300" class="mx-auto" />
+	</div>
 	<div class="flex min-h-screen flex-col justify-center bg-white">
 		<div class="mx-auto w-full max-w-[30rem] p-10">
 			<form action="" method="post" on:submit|preventDefault={handleLogin}>
@@ -86,6 +110,9 @@
 					class="my-6 block rounded-md bg-indigo-600 px-8 py-3 text-white shadow-sm hover:bg-indigo-700"
 				>
 					Login
+					{#if requesting}
+						<Spinner />
+					{/if}
 				</button>
 
 				<p>
