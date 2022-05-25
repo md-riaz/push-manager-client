@@ -1,8 +1,14 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 
 	theme: {
-		extend: {}
+		extend: {
+			fontFamily: {
+				sans: ['IBM Plex Sans', ...defaultTheme.fontFamily.sans]
+			}
+		}
 	},
-	plugins: []
+	plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')]
 };
