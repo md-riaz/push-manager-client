@@ -1,8 +1,13 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Spinner from '../components/spinner.svelte';
-	import { onMount } from 'svelte';
 	import { BASE_API_URI } from '$lib/constants';
+	import { browserSet, browserGet } from '$lib/utils';
+
+	// if has auth token then redirect to dashboard
+	if (browserGet('authToken')) {
+		goto('/dashboard');
+	}
 
 	let email = '',
 		password = '',
@@ -33,7 +38,8 @@
 			const res = await req.json();
 
 			if (res.error === 0) {
-				localStorage.setItem('authToken', res.token);
+				browserSet('authToken', res.token);
+
 				goto('/dashboard');
 			} else {
 				alert(res.message);
@@ -44,13 +50,6 @@
 			requesting = false;
 		}
 	};
-
-	// if has auth token then redirect to dashboard
-	onMount(async () => {
-		if (localStorage.getItem('authToken')) {
-			goto('/dashboard');
-		}
-	});
 </script>
 
 <svelte:head>
