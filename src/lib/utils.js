@@ -24,6 +24,7 @@ export const sendRequest = async (fetch, action, method, body = {}) => {
 		headers['Content-Type'] = 'application/json';
 		body = JSON.stringify(body);
 		const token = browserGet('authToken');
+		console.log('token');
 		if (token) {
 			headers['Authorization'] = `Bearer ${token}`;
 		}

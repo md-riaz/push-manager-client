@@ -1,38 +1,43 @@
-<script context="module">
-	import { sendRequest } from '$lib/utils';
+<script>
+	import { BASE_API_URI } from '$lib/constants';
+	import { browserGet } from '$lib/utils';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	let websites = [];
 
-	export const Load = async ({ fetch }) => {
-		const [response, err] = await sendRequest(fetch, '/websites/', 'GET');
+	const fetchData = async () => {
+		const token = await browserGet('authToken');
+		const req = await fetch(`${BASE_API_URI}/websites`, {
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				Authorization: `Bearer ${token}`
+			},
+			method: 'GET'
+		});
 
-		const websites = response.data;
+		const res = await req.json();
 
-		if (err) {
-			return {
-				status: 302,
-				redirect: '/login'
-			};
+		if (res.error === 401) {
+			localStorage.removeItem('authToken');
+			goto('/login');
 		}
 
-		return {
-			props: { websites }
-		};
+		const data = res.data;
+
+		return data;
 	};
-</script>
 
-<script>
-	export let websites;
-
-	console.log(websites);
+	onMount(async function () {
+		const data = await fetchData();
+		websites = data;
+	});
 </script>
 
 <svelte:head>
 	<title>Dashboard</title>
 </svelte:head>
 
-<ul>
-	{#each websites as website, i}
-		<li>
-			{i + 1}: {website.domain}
-		</li>
-	{/each}
-</ul>
+{#each websites as item}
+	<li>{item.domain}</li>
+{/each}
