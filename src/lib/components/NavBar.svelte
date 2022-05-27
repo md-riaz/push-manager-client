@@ -1,9 +1,19 @@
+<script>
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
+
+	const closeSideBar = () => {
+		dispatch('close');
+	};
+</script>
+
 <nav
 	class="bg-white border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800 dark:border-gray-600"
 >
 	<div class="flex flex-wrap justify-between items-center">
 		<div class="flex items-center dark:text-white">
-			<button>
+			<button on:click={closeSideBar}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-6 w-6 mr-4"

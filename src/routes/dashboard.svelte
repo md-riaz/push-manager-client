@@ -34,6 +34,7 @@
 
 	export let pageData = [];
 
+	// fetch new page data
 	const fetchPageData = async () => {
 		const [response, err] = await sendFetchRequest(fetch, '/apps', 'GET');
 
@@ -49,6 +50,7 @@
 		pageData = response.data;
 	};
 
+	// modal
 	let showModal = false;
 	const handleToggleModal = () => {
 		showModal = !showModal;
@@ -77,16 +79,21 @@
 			fetchPageData();
 		}
 	};
+
+	let sidebarCollapsed = false;
+	const collapseSidebar = () => {
+		sidebarCollapsed = !sidebarCollapsed;
+	};
 </script>
 
 <svelte:head>
 	<title>Dashboard</title>
 </svelte:head>
 
-<NavBar />
-<SideBar />
+<NavBar on:close={collapseSidebar} />
+<SideBar {sidebarCollapsed} />
 
-<main class="ml-64 p-5 min-h-screen dark:bg-gray-900">
+<main class="{sidebarCollapsed ? 'ml-16' : 'ml-64'} p-5 min-h-screen dark:bg-gray-900">
 	<div class="flex flex-wrap gap-4 p-3">
 		{#each pageData as app, index}
 			<div class="shadow-sm w-52 h-24 bg-indigo-200  flex justify-center items-center rounded-lg">

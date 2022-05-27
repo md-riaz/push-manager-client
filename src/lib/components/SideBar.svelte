@@ -16,9 +16,14 @@
 					>`
 		}
 	];
+
+	export let sidebarCollapsed = false;
 </script>
 
-<aside class="w-64 overflow-y-auto h-full fixed" aria-label="Sidebar">
+<aside
+	class="{sidebarCollapsed ? 'w-16' : 'w-64'} overflow-y-auto h-full fixed"
+	aria-label="Sidebar"
+>
 	<div class="py-4 px-3 bg-gray-50  dark:bg-gray-800 min-h-screen">
 		<ul class="space-y-2">
 			{#each routes as item}
@@ -28,7 +33,9 @@
 						class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 					>
 						{@html item.icon}
-						<span class="ml-3">{item.title}</span>
+						{#if !sidebarCollapsed}
+							<span class="ml-3">{item.title}</span>
+						{/if}
 					</a>
 				</li>
 			{/each}
