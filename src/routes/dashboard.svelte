@@ -1,43 +1,48 @@
-<script>
-	import { BASE_API_URI } from '$lib/constants';
-	import { browserGet } from '$lib/utils';
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-	let websites = [];
+<script context="module">
+	import SideBar from './../components/SideBar.svelte';
+	import { browserRemove, sendRequest } from '$lib/utils';
 
-	const fetchData = async () => {
-		const token = await browserGet('authToken');
-		const req = await fetch(`${BASE_API_URI}/websites`, {
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				Authorization: `Bearer ${token}`
-			},
-			method: 'GET'
-		});
+	export async function load({ params, fetch, session }) {
+		const [response, err] = await sendRequest(fetch, '/apps', 'GET');
+		console.log('error: ', err);
 
-		const res = await req.json();
+		console.log(response);
 
-		if (res.error === 401) {
-			localStorage.removeItem('authToken');
-			goto('/login');
+		// if error code is 401, means auth error, so redirect to login page
+		if (response.error === 401) {
+			browserRemove('authToken');
+			return {
+				status: 302,
+				redirect: '/login'
+			};
 		}
 
-		const data = res.data;
+		return {
+			status: response.status,
+			props: {
+				pageData: response.data
+			}
+		};
+	}
+</script>
 
-		return data;
-	};
-
-	onMount(async function () {
-		const data = await fetchData();
-		websites = data;
-	});
+<script>
+	export let pageData;
 </script>
 
 <svelte:head>
 	<title>Dashboard</title>
 </svelte:head>
 
-{#each websites as item}
-	<li>{item.domain}</li>
-{/each}
+<SideBar />
+<main class="ml-64 p-5">
+	<div class="flex flex-wrap gap-4 p-3">
+		{#each pageData as app, index}
+			<div
+				class="shadow-sm w-52 h-24 bg-indigo-200  flex justify-center items-center rounded-lg cursor-pointer"
+			>
+				{index}. {app.name}
+			</div>
+		{/each}
+	</div>
+</main>

@@ -1,13 +1,27 @@
+<script context="module">
+	import { browserGet } from '$lib/utils';
+
+	export const load = () => {
+		// if has auth token then redirect to dashboard
+		if (browserGet('authToken')) {
+			return {
+				status: 302,
+				redirect: '/dashboard'
+			};
+		}
+
+		return {
+			status: 200,
+			props: {}
+		};
+	};
+</script>
+
 <script>
 	import { goto } from '$app/navigation';
 	import Spinner from '../components/spinner.svelte';
 	import { BASE_API_URI } from '$lib/constants';
-	import { browserSet, browserGet } from '$lib/utils';
-
-	// if has auth token then redirect to dashboard
-	if (browserGet('authToken')) {
-		goto('/dashboard');
-	}
+	import { browserSet } from '$lib/utils';
 
 	let email = '',
 		password = '',

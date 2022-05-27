@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Scroll thumb styles */
+::-webkit-scrollbar {
+	width: 0.8rem;
+}
+::-webkit-scrollbar-thumb {
+	@apply bg-indigo-500;
+	border-radius: 1rem;
+}
+::-webkit-scrollbar-thumb:active {
+	@apply bg-indigo-600;
+}
+::-webkit-scrollbar-thumb:hover {
+	@apply bg-indigo-600;
+	box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Scroll track styles (Background) */
+::-webkit-scrollbar-track {
+	@apply bg-gray-900;
+}
+::-webkit-scrollbar-track:hover,
+::-webkit-scrollbar-track:active {
+	@apply bg-gray-900;
+}

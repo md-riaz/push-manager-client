@@ -17,29 +17,34 @@ export const browserSet = (key, value) => {
 	}
 };
 
-export const sendRequest = async (fetch, action, method, body = {}) => {
+export const browserRemove = (key) => {
+	if (browser) {
+		localStorage.removeItem(key);
+	}
+};
+
+export const sendRequest = async (loadFetch, action, method, body = null) => {
 	try {
 		const url = BASE_API_URI + action;
 		const headers = {};
 		headers['Content-Type'] = 'application/json';
-		body = JSON.stringify(body);
+		headers['Accept'] = 'application/json';
+
 		const token = browserGet('authToken');
-		console.log('token');
+		console.log('token', token);
 		if (token) {
 			headers['Authorization'] = `Bearer ${token}`;
 		}
 
-		const req = fetch(url, {
-			method,
-			body,
-			headers
-		});
+		const options = { method, headers };
 
-		const response = await req.json();
-
-		if (response.error !== 0) {
-			throw new Error(response.message);
+		if (body) {
+			body = JSON.stringify(body);
+			options.body = body;
 		}
+
+		const req = await loadFetch(url, options);
+		const response = await req.json();
 
 		return [response, null];
 	} catch (e) {
