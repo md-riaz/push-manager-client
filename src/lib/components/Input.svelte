@@ -1,6 +1,7 @@
 <script>
 	export let label = '';
-	export let id = '';
+	export let id = 'svelte' + Math.round(Math.random() * 1000);
+	export let name = '';
 	export let value = '';
 	export let placeholder = '';
 	export let type = 'text';
@@ -17,6 +18,7 @@
 		<input
 			{id}
 			bind:value
+			{name}
 			use:typeAction
 			{placeholder}
 			class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 focus:ring-opacity-50"

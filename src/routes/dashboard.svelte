@@ -29,6 +29,9 @@
 </script>
 
 <script>
+	import { sendRequest as sendFetchRequest } from '$lib/utils';
+	console.log(sendFetchRequest);
+
 	export let pageData = [];
 
 	let showModal = false;
@@ -36,7 +39,22 @@
 		showModal = !showModal;
 	};
 
-	let inputval = '';
+	let appName = '';
+
+	const handleAppSubmit = async (e) => {
+		if (appName.length === 0) {
+			alert('Please enter app name');
+			return;
+		}
+
+		const formData = {
+			app: appName
+		};
+
+		const [response, err] = await sendFetchRequest(fetch, '/apps', 'POST', formData);
+
+		console.log(response);
+	};
 </script>
 
 <svelte:head>
@@ -54,8 +72,9 @@
 			</div>
 		{/each}
 
-		<div
+		<button
 			class="shadow-sm w-52 h-24 bg-indigo-100  flex flex-col justify-center items-center rounded-lg"
+			on:click={() => handleToggleModal()}
 		>
 			<span>
 				<svg
@@ -70,23 +89,25 @@
 				</svg>
 			</span>
 			Add New App
-		</div>
+		</button>
 	</div>
-	{inputval}
-	<button on:click={() => handleToggleModal()}>Open modal</button>
 </main>
 
-<Modal title="Edit your details" open={showModal} on:close={() => handleToggleModal()}>
+<Modal
+	title="Add your app or website"
+	open={showModal}
+	on:close={() => handleToggleModal()}
+	hasForm={true}
+	on:submit={handleAppSubmit}
+>
 	<svelte:fragment slot="body">
-		<form action="#" class="space-y-6">
-			<Input label="Name" bind:value={inputval} />
-		</form>
+		<Input label="Name" name="app" bind:value={appName} />
 	</svelte:fragment>
 
 	<svelte:fragment slot="actions">
 		<div class="flex gap-2 justify-end">
 			<Button type="button" style="outline" label="Close" on:click={() => handleToggleModal()} />
-			<Button type="button" style="primary" label="Save" />
+			<Button type="submit" style="primary" label="Save" />
 		</div>
 	</svelte:fragment>
 </Modal>

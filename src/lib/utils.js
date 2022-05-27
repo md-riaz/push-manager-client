@@ -24,6 +24,7 @@ export const browserRemove = (key) => {
 };
 
 export const sendRequest = async (loadFetch, action, method, body = null) => {
+	if (!browser) return [{ status: 200, data: null }, null];
 	try {
 		const url = BASE_API_URI + action;
 		const headers = {};
@@ -31,7 +32,9 @@ export const sendRequest = async (loadFetch, action, method, body = null) => {
 		headers['Accept'] = 'application/json';
 
 		const token = browserGet('authToken');
+
 		console.log('token', token);
+
 		if (token) {
 			headers['Authorization'] = `Bearer ${token}`;
 		}

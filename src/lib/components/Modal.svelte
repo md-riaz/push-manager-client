@@ -1,10 +1,11 @@
 <script>
 	import { createEventDispatcher, onDestroy } from 'svelte';
-	import { scale } from 'svelte/transition';
+	import { scale, fade } from 'svelte/transition';
 	const dispatch = createEventDispatcher();
 
 	export let open = false;
 	export let title = '';
+	export let hasForm = false;
 
 	const closeModal = () => dispatch('close');
 
@@ -26,11 +27,12 @@
 <svelte:window on:keydown={handleKeydown} />
 {#if open}
 	<div
-		transition:scale
+		transition:fade
 		class="modal z-50 fixed w-full h-full top-0 left-0 flex justify-center p-8 lg:p-0"
 	>
 		<div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50" />
 		<div
+			transition:scale
 			class="bg-white dark:bg-gray-700 w-full lg:h-max lg:w-2/5 mx-auto rounded-md shadow-xl z-50 overflow-y-auto mt-40"
 		>
 			<div
@@ -54,16 +56,40 @@
 					>
 				</button>
 			</div>
-			<div class="content px-8 py-5 bg-gray-50 dark:bg-gray-700 dark:text-white">
-				<slot name="body" />
-			</div>
 
-			{#if $$slots.actions}
-				<div
-					class="footer px-8 py-5 bg-white dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600"
+			{#if hasForm}
+				<form
+					action="#"
+					class="space-y-6"
+					method="post"
+					on:submit|preventDefault={(e) => dispatch('submit', e)}
 				>
-					<slot name="actions" />
+					<div class="content px-8 py-5 bg-gray-50 dark:bg-gray-700 dark:text-white">
+						<slot name="body" />
+					</div>
+
+					{#if $$slots.actions}
+						<div
+							class="footer px-8 py-5 bg-white dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600"
+						>
+							<slot name="actions" />
+						</div>
+					{/if}
+				</form>
+			{/if}
+
+			{#if !hasForm}
+				<div class="content px-8 py-5 bg-gray-50 dark:bg-gray-700 dark:text-white">
+					<slot name="body" />
 				</div>
+
+				{#if $$slots.actions}
+					<div
+						class="footer px-8 py-5 bg-white dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600"
+					>
+						<slot name="actions" />
+					</div>
+				{/if}
 			{/if}
 		</div>
 	</div>
