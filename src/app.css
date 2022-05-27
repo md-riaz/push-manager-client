@@ -26,3 +26,7 @@
 ::-webkit-scrollbar-track:active {
 	@apply bg-gray-900;
 }
+
+aside li.active {
+	@apply bg-gray-900;
+}

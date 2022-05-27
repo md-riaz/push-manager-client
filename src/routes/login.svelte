@@ -19,7 +19,7 @@
 
 <script>
 	import { goto } from '$app/navigation';
-	import Spinner from '../components/spinner.svelte';
+	import Spinner from '$lib/components/spinner.svelte';
 	import { BASE_API_URI } from '$lib/constants';
 	import { browserSet } from '$lib/utils';
 
