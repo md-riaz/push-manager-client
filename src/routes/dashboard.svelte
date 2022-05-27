@@ -30,9 +30,24 @@
 
 <script>
 	import { sendRequest as sendFetchRequest } from '$lib/utils';
-	console.log(sendFetchRequest);
+	import { addToast } from '../lib/components/Toast/toastStore';
 
 	export let pageData = [];
+
+	const fetchPageData = async () => {
+		const [response, err] = await sendFetchRequest(fetch, '/apps', 'GET');
+
+		// if error code is 401, means auth error, so redirect to login page
+		if (response.error === 401) {
+			browserRemove('authToken');
+			return {
+				status: 302,
+				redirect: '/login'
+			};
+		}
+
+		pageData = response.data;
+	};
 
 	let showModal = false;
 	const handleToggleModal = () => {
@@ -47,13 +62,20 @@
 			return;
 		}
 
-		const formData = {
-			app: appName
-		};
+		const formData = Object.fromEntries(new FormData(e.detail.target));
 
 		const [response, err] = await sendFetchRequest(fetch, '/apps', 'POST', formData);
 
-		console.log(response);
+		if (response.error === 0) {
+			// add success message
+			addToast(response.message, 'success');
+			// hide modal
+			handleToggleModal();
+			// reset value
+			appName = '';
+			// fetch data
+			fetchPageData();
+		}
 	};
 </script>
 
@@ -64,7 +86,7 @@
 <NavBar />
 <SideBar />
 
-<main class="ml-64 p-5">
+<main class="ml-64 p-5 min-h-screen dark:bg-gray-900">
 	<div class="flex flex-wrap gap-4 p-3">
 		{#each pageData as app, index}
 			<div class="shadow-sm w-52 h-24 bg-indigo-200  flex justify-center items-center rounded-lg">

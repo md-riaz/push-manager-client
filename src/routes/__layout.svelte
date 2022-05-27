@@ -1,5 +1,8 @@
 <script>
- import "../app.css";
+	import Toasts from '$lib/components/Toast/Toasts.svelte';
+	import '../app.css';
 </script>
 
 <slot />
+
+<Toasts />
