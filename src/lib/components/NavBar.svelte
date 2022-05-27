@@ -2,12 +2,26 @@
 	class="bg-white border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800 dark:border-gray-600"
 >
 	<div class="flex flex-wrap justify-between items-center">
-		<a href="/" class="flex items-center">
-			<img src="./favicon.svg" class="mr-3 h-6 sm:h-9" alt="Brand" />
-			<span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-				PUSH MANAGER
-			</span>
-		</a>
+		<div class="flex items-center dark:text-white">
+			<button>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6 mr-4"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+				</svg>
+			</button>
+			<a href="/" class="flex items-center">
+				<img src="./favicon.svg" class="mr-3 h-6 sm:h-9" alt="Brand" />
+				<span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
+					PUSH MANAGER
+				</span>
+			</a>
+		</div>
 
 		<div class="w-full md:w-auto">
 			<ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">

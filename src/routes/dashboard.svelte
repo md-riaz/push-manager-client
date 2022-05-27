@@ -30,11 +30,13 @@
 
 <script>
 	export let pageData = [];
-	let showModal = false;
 
+	let showModal = false;
 	const handleToggleModal = () => {
 		showModal = !showModal;
 	};
+
+	let inputval = '';
 </script>
 
 <svelte:head>
@@ -70,14 +72,14 @@
 			Add New App
 		</div>
 	</div>
-
+	{inputval}
 	<button on:click={() => handleToggleModal()}>Open modal</button>
 </main>
 
 <Modal title="Edit your details" open={showModal} on:close={() => handleToggleModal()}>
 	<svelte:fragment slot="body">
 		<form action="#" class="space-y-6">
-			<Input label="Name" />
+			<Input label="Name" bind:value={inputval} />
 		</form>
 	</svelte:fragment>
 
