@@ -9,7 +9,7 @@
 </script>
 
 <nav
-	class="bg-white border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800 dark:border-gray-600"
+	class="bg-white border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800 dark:border-gray-600 fixed top-0 left-0 w-full z-20"
 >
 	<div class="flex flex-wrap justify-between items-center">
 		<div class="flex items-center dark:text-white">

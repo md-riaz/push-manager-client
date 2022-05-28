@@ -21,7 +21,9 @@
 </script>
 
 <aside
-	class="{sidebarCollapsed ? 'w-16' : 'w-64'} overflow-y-auto h-full fixed"
+	class="{sidebarCollapsed
+		? 'w-16'
+		: 'w-64 overflow-y-auto'} overflow-x-hidden h-full fixed transition-[width, margin] ease-linear duration-100"
 	aria-label="Sidebar"
 >
 	<div class="py-4 px-3 bg-gray-50  dark:bg-gray-800 min-h-screen">
@@ -33,9 +35,8 @@
 						class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 					>
 						{@html item.icon}
-						{#if !sidebarCollapsed}
-							<span class="ml-3">{item.title}</span>
-						{/if}
+
+						<span class="ml-3 {sidebarCollapsed ? 'hidden' : ''}">{item.title}</span>
 					</a>
 				</li>
 			{/each}

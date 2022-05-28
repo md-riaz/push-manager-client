@@ -24,7 +24,7 @@ export const browserRemove = (key) => {
 };
 
 export const sendRequest = async (loadFetch, action, method, body = null) => {
-	if (!browser) return [{ status: 200, data: null }, null];
+	if (!browser) return [{ status: 200, error: 0, data: [] }, null];
 	try {
 		const url = BASE_API_URI + action;
 		const headers = {};
