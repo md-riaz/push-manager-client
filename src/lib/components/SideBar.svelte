@@ -88,7 +88,7 @@
 							<!-- Nested menu -->
 							<ul transition:slide class="py-2 space-y-2">
 								{#each item.children as child}
-									<li>
+									<li class:active={$page.url.pathname == child.route}>
 										<a
 											href={child.route}
 											class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
