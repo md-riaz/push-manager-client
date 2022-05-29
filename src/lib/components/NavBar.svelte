@@ -26,7 +26,7 @@
 				</svg>
 			</button>
 			<a href="/" class="flex items-center">
-				<img src="./favicon.svg" class="mr-3 h-6 sm:h-9" alt="Brand" />
+				<img src="/favicon.svg" class="mr-3 h-6 sm:h-9" alt="Brand" />
 				<span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
 					PUSH MANAGER
 				</span>
