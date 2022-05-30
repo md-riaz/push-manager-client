@@ -1,11 +1,25 @@
+<script context="module">
+	import { sendRequest } from '$lib/utils';
+
+	const fetchPageData = async (fetch) => {
+		const [response, err] = await sendRequest(fetch, '/roles', 'GET');
+		console.log(response);
+		return response.data;
+	};
+
+	export async function load({ fetch }) {
+		const pageData = await fetchPageData(fetch);
+
+		return {
+			props: {
+				Roles: pageData
+			}
+		};
+	}
+</script>
+
 <script>
-	export let Roles = [
-		{
-			id: 1,
-			name: 'John Doe',
-			total: 100
-		}
-	];
+	export let Roles = [];
 </script>
 
 <svelte:head>

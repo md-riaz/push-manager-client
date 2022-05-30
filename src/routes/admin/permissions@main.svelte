@@ -1,11 +1,26 @@
+<script context="module">
+	import { sendRequest } from '$lib/utils';
+
+	const fetchPageData = async (fetch) => {
+		const [response, err] = await sendRequest(fetch, '/routelist', 'GET');
+
+		return response.data;
+	};
+
+	export async function load({ fetch }) {
+		const pageData = await fetchPageData(fetch);
+
+		return {
+			props: {
+				Permissions: pageData
+			}
+		};
+	}
+</script>
+
 <script>
-	export let Permissions = [
-		{
-			id: 1,
-			action: '/api/auth/login',
-			permissions: ['admin', 'editor']
-		}
-	];
+	export let Permissions = [];
+	console.log('p', Permissions);
 </script>
 
 <svelte:head>
@@ -25,7 +40,7 @@
 		</thead>
 		<tbody>
 			{#if Permissions.length}
-				{#each Permissions as permission, index}
+				{#each Permissions as permission}
 					<tr
 						class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
 					>
@@ -33,12 +48,14 @@
 							scope="row"
 							class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
 						>
-							{permission.action}
+							{permission.api_path}
 						</th>
 						<td class="px-6 py-4">
-							{#each permission.permissions as permission}
-								<span class="bg-amber-100 px-2 m-1 rounded-md text-slate-800">{permission}</span>
-							{/each}
+							{#if permission.groups?.length}
+								{#each permission.groups as group}
+									<span class="bg-amber-100 px-2 m-1 rounded-md text-slate-800">{group}</span>
+								{/each}
+							{/if}
 						</td>
 						<td class="px-6 py-4 text-right">
 							<a

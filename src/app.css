@@ -28,5 +28,5 @@
 }
 
 aside li.active {
-	@apply bg-gray-900;
+	@apply bg-gray-200 dark:bg-gray-900;
 }

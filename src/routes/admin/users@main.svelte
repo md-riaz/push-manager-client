@@ -1,15 +1,25 @@
+<script context="module">
+	import { sendRequest } from '$lib/utils';
+
+	const fetchPageData = async (fetch) => {
+		const [response, err] = await sendRequest(fetch, '/users', 'GET');
+		console.log(response);
+		return response.data;
+	};
+
+	export async function load({ fetch }) {
+		const pageData = await fetchPageData(fetch);
+
+		return {
+			props: {
+				Users: pageData
+			}
+		};
+	}
+</script>
+
 <script>
-	export let Users = [
-		{
-			id: 1,
-			name: 'John Doe',
-			email: 'john.doe@gmail.com',
-			phone: '+91-123-456-7890',
-			role: 'Admin',
-			status: 1,
-			created_at: '2020-01-01'
-		}
-	];
+	export let Users = [];
 </script>
 
 <svelte:head>
@@ -45,7 +55,13 @@
 						</th>
 						<td class="px-6 py-4"> {user.email} </td>
 						<td class="px-6 py-4"> {user.phone} </td>
-						<td class="px-6 py-4"> {user.role} </td>
+						<td class="px-6 py-4">
+							{#if user.roles}
+								{#each user.roles as role}
+									<span class="bg-green-500 text-white rounded-md px-3 py-1">{role}</span>
+								{/each}
+							{/if}
+						</td>
 						<td class="px-6 py-4">
 							{#if user.status == 1}
 								<span class="text-green-500"
