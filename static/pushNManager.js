@@ -50,13 +50,15 @@ async function send() {
 	});
 
 	console.log('Push Registered...');
-	console.log({ subscription: JSON.stringify(subscription), app_id: window.pushNManager.app });
 
 	// Send Push Notification
 	console.log('Sending Push...');
 	await fetch(`${BASE_API_URI}/subscription`, {
 		method: 'POST',
-		body: JSON.stringify(subscription),
+		body: JSON.stringify({
+			subscription: JSON.stringify(subscription),
+			app_id: window.pushNManager.app
+		}),
 		headers: {
 			'content-type': 'application/json'
 		}
