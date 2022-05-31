@@ -1,4 +1,4 @@
-const BASE_API_URI = 'http://localhost:3001/api/';
+const BASE_API_URI = 'http://localhost:3001/api';
 const publicVapidKey =
 	'BJthRQ5myDgc7OSXzPCMftGw-n16F7zQBEN7EUD6XxcfTTvrLGWSIG7y_JxiWtVlCFua0S8MTB5rPziBqNx1qIo';
 
