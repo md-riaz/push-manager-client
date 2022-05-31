@@ -45,12 +45,6 @@
 	];
 
 	export let sidebarCollapsed = false;
-
-	let showDropdown = false;
-
-	const toggleDropdown = () => {
-		showDropdown = !showDropdown;
-	};
 </script>
 
 <aside
