@@ -9,15 +9,6 @@
 
 		console.log('error: ', err);
 
-		// if error code is 401, means auth error, so redirect to login page
-		if (response.error === 401) {
-			browserRemove('authToken');
-			return {
-				status: 302,
-				redirect: '/login'
-			};
-		}
-
 		return {
 			status: response.status,
 			props: {
@@ -87,9 +78,12 @@
 <div class="flex flex-wrap gap-4 p-3">
 	{#if pageData.length}
 		{#each pageData as app, index}
-			<div class="shadow-sm w-52 h-24 bg-indigo-200  flex justify-center items-center rounded-lg">
+			<a
+				href="/app/{app.id}"
+				class="shadow-sm w-52 h-24 bg-indigo-200  flex justify-center items-center rounded-lg"
+			>
 				{index + 1}. {app.name}
-			</div>
+			</a>
 		{/each}
 	{/if}
 

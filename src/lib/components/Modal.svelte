@@ -58,13 +58,8 @@
 			</div>
 
 			{#if hasForm}
-				<form
-					action="#"
-					class="space-y-6"
-					method="post"
-					on:submit|preventDefault={(e) => dispatch('submit', e)}
-				>
-					<div class="content px-8 py-5 bg-gray-50 dark:bg-gray-700 dark:text-white">
+				<form action="#" method="post" on:submit|preventDefault={(e) => dispatch('submit', e)}>
+					<div class="content px-8 py-5 bg-gray-50 dark:bg-gray-700 dark:text-white space-y-6">
 						<slot name="body" />
 					</div>
 
@@ -77,7 +72,7 @@
 					{/if}
 				</form>
 			{:else}
-				<div class="content px-8 py-5 bg-gray-50 dark:bg-gray-700 dark:text-white">
+				<div class="content px-8 py-5 bg-gray-50 dark:bg-gray-700 dark:text-white space-y-6">
 					<slot name="body" />
 				</div>
 

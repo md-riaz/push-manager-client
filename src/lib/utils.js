@@ -1,5 +1,6 @@
 import { browser } from '$app/env';
 import { BASE_API_URI } from '$lib/constants';
+import { goto } from '$app/navigation';
 
 export const browserGet = (key) => {
 	if (browser) {
@@ -48,6 +49,11 @@ export const sendRequest = async (loadFetch, action, method, body = null) => {
 
 		const req = await loadFetch(url, options);
 		const response = await req.json();
+
+		// if error code is 401, means auth error, so redirect to login page
+		if (response.error === 401) {
+			goto('/login');
+		}
 
 		return [response, null];
 	} catch (e) {
