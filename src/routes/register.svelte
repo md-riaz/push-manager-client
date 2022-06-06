@@ -67,7 +67,7 @@
 </script>
 
 <svelte:head>
-	<title>Login</title>
+	<title>Register</title>
 </svelte:head>
 
 <section class="grid md:grid-cols-2">

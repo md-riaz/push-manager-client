@@ -20,7 +20,7 @@
 
 <script>
 	import { sendRequest as sendFetchRequest } from '$lib/utils';
-	import { addToast } from '../lib/components/Toast/toastStore';
+	import { addToast } from '$lib/components/Toast/toastStore';
 
 	export let pageData = [];
 

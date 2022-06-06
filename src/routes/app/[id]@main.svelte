@@ -14,11 +14,13 @@
 </script>
 
 <script>
+	import { addToast } from '$lib/components/Toast/toastStore';
 	import Modal from '$lib/components/Modal.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 
 	export let Notifications = [];
+	export let appId;
 
 	// modal
 	let showModal = false;
@@ -26,7 +28,18 @@
 		showModal = !showModal;
 	};
 
-	const handleSubmit = async () => {};
+	const handleSubmit = async (e) => {
+		const formData = new FormData(e.detail.target);
+
+		const [response, err] = await sendRequest(
+			fetch,
+			'/app/' + appId + '/notifications',
+			'POST',
+			formData
+		);
+
+		addToast(response.message, 'success');
+	};
 </script>
 
 <svelte:head>
@@ -36,7 +49,7 @@
 <div class="flex justify-between items-center mb-3 text-gray-700 dark:text-white">
 	<h5 class="font-bold">Push Notifications</h5>
 	<button
-		on:click={() => (showModal = true)}
+		on:click={handleToggleModal}
 		class="rounded-md bg-indigo-600 px-5 py-2 text-white shadow-sm hover:bg-indigo-700 flex gap-1 items-center"
 	>
 		<svg
@@ -124,10 +137,13 @@
 	<svelte:fragment slot="body">
 		<Input label="Name" name="name" />
 		<Input label="Title" name="title" />
-		<Input label="Message" name="message" type="textarea" />
+		<Input label="Message" name="message" type="textarea" required="true" />
 		<Input label="Image" name="image" />
 		<Input label="Launch URL" name="launch_url" type="url" />
-		<Input label="Schedule" name="schedule" type="datetime" />
+		<div class="grid grid-cols-2 gap-3">
+			<Input label="Schedule" name="schedule" type="date" />
+			<Input label="Time" name="time" type="time" />
+		</div>
 	</svelte:fragment>
 
 	<svelte:fragment slot="actions">

@@ -6,6 +6,8 @@
 	export let placeholder = '';
 	export let rows = '3';
 	export let type = 'text';
+	export let required = false;
+
 	const typeAction = (node) => {
 		node.type = type;
 	};
@@ -23,6 +25,7 @@
 				{name}
 				{placeholder}
 				{rows}
+				{required}
 				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 focus:ring-opacity-50"
 			/>
 		{:else}
@@ -32,6 +35,7 @@
 				{name}
 				use:typeAction
 				{placeholder}
+				{required}
 				class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 focus:ring-opacity-50"
 			/>
 		{/if}

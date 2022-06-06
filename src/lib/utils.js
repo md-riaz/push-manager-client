@@ -52,6 +52,7 @@ export const sendRequest = async (loadFetch, action, method, body = null) => {
 
 		// if error code is 401, means auth error, so redirect to login page
 		if (response.error === 401) {
+			browserRemove('authToken');
 			goto('/login');
 		}
 

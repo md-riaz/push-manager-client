@@ -1,6 +1,7 @@
 <script>
-	import { createEventDispatcher, onDestroy } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import { scale, fade } from 'svelte/transition';
+	import { browser } from '$app/env';
 	const dispatch = createEventDispatcher();
 
 	export let open = false;
@@ -22,18 +23,43 @@
 			closeModal();
 		}
 	};
+
+	let prevBodyPosition, prevBodyOverflow, prevBodyWidth;
+
+	const disableScroll = () => {
+		if (!browser) return;
+		scrollY = window.scrollY;
+		prevBodyPosition = document.body.style.position;
+		prevBodyOverflow = document.body.style.overflow;
+		prevBodyWidth = document.body.style.width;
+		document.body.style.position = 'fixed';
+		document.body.style.top = `-${scrollY}px`;
+		document.body.style.overflow = 'hidden';
+		document.body.style.width = '100%';
+	};
+
+	const enableScroll = () => {
+		if (!browser) return;
+		document.body.style.position = prevBodyPosition || '';
+		document.body.style.top = '';
+		document.body.style.overflow = prevBodyOverflow || '';
+		document.body.style.width = prevBodyWidth || '';
+		window.scrollTo(0, scrollY);
+	};
+
+	$: open ? disableScroll() : enableScroll();
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 {#if open}
 	<div
 		transition:fade
-		class="modal z-50 fixed w-full h-full top-0 left-0 flex justify-center p-8 lg:p-0"
+		class="modal z-50 fixed w-full h-full top-0 left-0 flex justify-center p-8 lg:p-0 overflow-x-scroll"
 	>
 		<div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50" />
 		<div
 			transition:scale
-			class="bg-white dark:bg-gray-700 w-full lg:h-max lg:w-2/5 mx-auto rounded-md shadow-xl z-50 overflow-y-auto mt-40"
+			class="bg-white dark:bg-gray-700 w-full lg:h-max lg:w-2/5 mx-auto rounded-md shadow-xl z-50 mt-32"
 		>
 			<div
 				class="head py-5 px-8 text-lg text-gray-800 dark:text-gray-200 font-semibold flex justify-between items-center border-b border-gray-200 dark:border-gray-600"
