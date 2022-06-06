@@ -1,12 +1,6 @@
 <svelte:head>
-	<title>Home Page</title>
+	<title>Node Push Manager</title>
 </svelte:head>
-<!-- <h1>Welcome to SvelteKit</h1>
-<h1 class="text-3xl font-bold underline">Hello world!</h1>
-
-<a href="/about">About my site</a><br />
-<a href="/dashboard">Dashboard</a><br />
-<a href="/login">Login</a><br /> -->
 
 <nav class="w-full border-b py-5">
 	<div class="py-5 md:py-0 container mx-auto px-6 flex items-center justify-between">
