@@ -1,13 +1,21 @@
 <script context="module">
 	import { sendRequest } from '$lib/utils';
 
+	const fetchPageData = async (appId, fetch) => {
+		const resp = await sendRequest(fetch, '/app/' + appId + '/notifications');
+		return resp;
+	};
+
 	export async function load({ params, fetch }) {
 		const appId = params.id;
+
+		const resp = await fetchPageData(appId, fetch);
 
 		return {
 			status: 200,
 			props: {
-				appId: appId
+				appId: appId,
+				Notifications: resp.data
 			}
 		};
 	}
@@ -18,6 +26,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
+	import { formatDate } from '$lib/utils';
 
 	export let Notifications = [];
 	export let appId;
@@ -31,14 +40,16 @@
 	const handleSubmit = async (e) => {
 		const formData = new FormData(e.detail.target);
 
-		const [response, err] = await sendRequest(
-			fetch,
-			'/app/' + appId + '/notifications',
-			'POST',
-			formData
-		);
+		const resp = await sendRequest(fetch, '/app/' + appId + '/notifications', 'POST', formData);
 
-		addToast(response.message, 'success');
+		addToast(resp.message, resp.error === 0 ? 'success' : 'error');
+
+		if (resp.error === 0) {
+			handleToggleModal();
+			const resp = await fetchPageData(appId, fetch);
+
+			Notifications = resp.data;
+		}
 	};
 </script>
 
@@ -74,7 +85,7 @@
 		<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 			<tr>
 				<th scope="col" class="px-6 py-3"> Name </th>
-				<th scope="col" class="px-6 py-3"> Sent </th>
+				<th scope="col" class="px-6 py-3"> Status </th>
 				<th scope="col" class="px-6 py-3"> Created </th>
 				<th scope="col" class="px-6 py-3">
 					<span class="sr-only">Actions</span>
@@ -93,13 +104,13 @@
 						>
 							{notification.name}
 						</th>
-						<td class="px-6 py-4"> {notification.sent} </td>
+						<td class="px-6 py-4"> {notification.status} </td>
 						<td class="px-6 py-4">
 							<time
 								class="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
-								datetime={notification.created}
+								datetime={notification.created_at}
 							>
-								{notification.created}
+								{formatDate(notification.created_at)}
 							</time>
 						</td>
 						<td class="px-6 py-4 text-right">
@@ -135,10 +146,10 @@
 	on:submit={handleSubmit}
 >
 	<svelte:fragment slot="body">
-		<Input label="Name" name="name" />
+		<Input label="Name" name="name" required="true" />
 		<Input label="Title" name="title" />
 		<Input label="Message" name="message" type="textarea" required="true" />
-		<Input label="Image" name="image" />
+		<Input label="Image" name="image" type="url" />
 		<Input label="Launch URL" name="launch_url" type="url" />
 		<div class="grid grid-cols-2 gap-3">
 			<Input label="Schedule" name="schedule" type="date" />

@@ -22,6 +22,7 @@
 	import Spinner from '$lib/components/spinner.svelte';
 	import { BASE_API_URI } from '$lib/constants';
 	import { browserSet } from '$lib/utils';
+	import { addToast } from '$lib/components/Toast/toastStore';
 
 	let email = '',
 		password = '',
@@ -56,10 +57,10 @@
 
 				goto('/dashboard');
 			} else {
-				alert(res.message);
+				addToast(res.message, 'error');
 			}
 		} catch (e) {
-			alert(e.message);
+			addToast(e.message, 'error');
 		} finally {
 			requesting = false;
 		}

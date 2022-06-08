@@ -1,44 +1,31 @@
 <script context="module">
 	import Modal from '$lib/components/Modal.svelte';
-	import { browserRemove, sendRequest } from '$lib/utils';
+	import { sendRequest } from '$lib/utils';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 
-	export async function load({ params, fetch, session }) {
-		const [response, err] = await sendRequest(fetch, '/apps', 'GET');
+	// fetch new page data
+	const fetchPageData = async (fetch) => {
+		const resp = await sendRequest(fetch, '/apps', 'GET');
 
-		console.log('error: ', err);
+		return resp;
+	};
+
+	export async function load({ params, fetch, session }) {
+		const resp = await fetchPageData(fetch);
 
 		return {
-			status: response.status,
 			props: {
-				pageData: response.data
+				pageData: resp.data
 			}
 		};
 	}
 </script>
 
 <script>
-	import { sendRequest as sendFetchRequest } from '$lib/utils';
 	import { addToast } from '$lib/components/Toast/toastStore';
 
 	export let pageData = [];
-
-	// fetch new page data
-	const fetchPageData = async () => {
-		const [response, err] = await sendFetchRequest(fetch, '/apps', 'GET');
-
-		// if error code is 401, means auth error, so redirect to login page
-		if (response.error === 401) {
-			browserRemove('authToken');
-			return {
-				status: 302,
-				redirect: '/login'
-			};
-		}
-
-		pageData = response.data;
-	};
 
 	// modal
 	let showModal = false;
@@ -56,17 +43,17 @@
 
 		const formData = Object.fromEntries(new FormData(e.detail.target));
 
-		const [response, err] = await sendFetchRequest(fetch, '/apps', 'POST', formData);
+		const resp = await sendRequest(fetch, '/apps', 'POST', formData);
 
-		if (response.error === 0) {
+		if (resp.error === 0) {
 			// add success message
-			addToast(response.message, 'success');
+			addToast(resp.message, 'success');
 			// hide modal
 			handleToggleModal();
 			// reset value
 			appName = '';
 			// fetch data
-			fetchPageData();
+			fetchPageData(fetch);
 		}
 	};
 </script>

@@ -2,9 +2,9 @@
 	import { sendRequest } from '$lib/utils';
 
 	const fetchPageData = async (fetch) => {
-		const [response, err] = await sendRequest(fetch, '/roles', 'GET');
-		console.log(response);
-		return response.data;
+		const resp = await sendRequest(fetch, '/roles', 'GET');
+
+		return resp.data;
 	};
 
 	export async function load({ fetch }) {
