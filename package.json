@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.0.1",
   "scripts": {
-    "dev": "svelte-kit dev",
+    "dev": "svelte-kit dev --open",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
@@ -31,5 +31,8 @@
   "type": "module",
   "engines": {
     "node": "16.x"
+  },
+  "dependencies": {
+    "prismjs": "^1.28.0"
   }
 }

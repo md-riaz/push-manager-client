@@ -98,7 +98,7 @@
 					{/if}
 				</form>
 			{:else}
-				<div class="content px-8 py-5 bg-gray-50 dark:bg-gray-700 dark:text-white space-y-6">
+				<div class="content px-8 py-5 bg-gray-50 dark:bg-gray-700 dark:text-white">
 					<slot name="body" />
 				</div>
 
