@@ -53,7 +53,8 @@
 			// reset value
 			appName = '';
 			// fetch data
-			fetchPageData(fetch);
+			const r = await fetchPageData(fetch);
+			pageData = r.data;
 		}
 	};
 </script>
@@ -69,7 +70,7 @@
 				href="/app/{app.id}"
 				class="shadow-sm w-52 h-24 bg-indigo-200  flex justify-center items-center rounded-lg"
 			>
-				{index + 1}. {app.name}
+				{app.name}
 			</a>
 		{/each}
 	{/if}

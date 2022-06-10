@@ -56,7 +56,10 @@
 		transition:fade
 		class="modal z-50 fixed w-full h-full top-0 left-0 flex justify-center p-8 lg:p-0 overflow-x-scroll"
 	>
-		<div class="modal-overlay fixed w-full h-full top-0 right-0 bg-gray-900 opacity-50" />
+		<div
+			class="modal-overlay fixed w-full h-full top-0 right-0 bg-gray-900 opacity-50"
+			on:click={closeModal}
+		/>
 		<div
 			transition:scale
 			class="bg-white dark:bg-gray-700 w-full lg:h-max md:w-3/4 lg:w-2/5 xl:w-2/6 mx-auto rounded-md shadow-xl z-50 mt-32"

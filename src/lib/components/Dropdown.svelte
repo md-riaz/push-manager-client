@@ -6,8 +6,10 @@
 	};
 </script>
 
-<span on:click={toggleDropdown}>
-	<slot name="toggle" />
-</span>
+<div class="relative">
+	<span on:click={toggleDropdown}>
+		<slot name="toggle" />
+	</span>
 
-<slot name="menu" {showDropdown} />
+	<slot name="menu" {showDropdown} />
+</div>

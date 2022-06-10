@@ -1,8 +1,8 @@
 <script context="module">
 	import { sendRequest } from '$lib/utils';
 
-	const fetchPageData = async (appId, fetch) => {
-		const resp = await sendRequest(fetch, '/app/' + appId + '/notifications');
+	const fetchPageData = async (appId, Loadfetch) => {
+		const resp = await sendRequest(Loadfetch, '/app/' + appId + '/notifications');
 		return resp;
 	};
 
@@ -29,6 +29,7 @@
 	import { formatDate } from '$lib/utils';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import Prism from 'prismjs';
+	import { goto } from '$app/navigation';
 
 	export let Notifications = [];
 	export let appId;
@@ -43,6 +44,19 @@
 
 	const handleToggleSettingModal = () => {
 		showSettingModal = !showSettingModal;
+	};
+
+	const handleDelete = async (appId) => {
+		if (confirm('Are you sure you want to delete this app?')) {
+			const resp = await sendRequest(fetch, '/app/' + appId, 'DELETE');
+
+			if (resp.error === 0) {
+				addToast(resp.message, 'success');
+				goto('/dashboard');
+			} else {
+				addToast(resp.message, 'error');
+			}
+		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -84,12 +98,32 @@
 	<h5 class="font-bold">Push Notifications</h5>
 	<div class="flex gap-3">
 		<button
+			on:click={handleDelete.bind(null, appId)}
+			class="rounded-md bg-red-500 px-5 py-2 text-white shadow-sm hover:bg-red-600 flex gap-1 items-center"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-5 w-5"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="2"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+				/>
+			</svg>
+		</button>
+
+		<button
 			on:click={handleToggleSettingModal}
 			class="rounded-md bg-blue-600 px-5 py-2 text-white shadow-sm hover:bg-blue-700 flex gap-1 items-center"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				class="h-6 w-6"
+				class="h-5 w-5"
 				fill="none"
 				viewBox="0 0 24 24"
 				stroke="currentColor"
@@ -160,38 +194,86 @@
 							</time>
 						</td>
 						<td class="px-6 py-4 text-right">
-							<Dropdown  let:showDropdown>
-									<svelte:fragment slot="toggle">
-							<button>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									class="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-									stroke-width="2"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-									/>
-								</svg>
-							</button>
+							<Dropdown let:showDropdown>
+								<svelte:fragment slot="toggle">
+									<button>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-6 w-6"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											stroke-width="2"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+											/>
+										</svg>
+									</button>
+								</svelte:fragment>
 
-									</svelte:fragment>
-
-									<svelte:fragment slot="menu">
-								{#if showDropdown}
-								<li >
-									<a
-										href=""
-										class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-										>Action</a
-									>
-								</li>
-								{/if}
-							</svelte:fragment>
+								<svelte:fragment slot="menu">
+									{#if showDropdown}
+										<!-- Dropdown menu -->
+										<div
+											class="z-10 bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600 text-left absolute top-full right-2"
+										>
+											<ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+												<li>
+													<a
+														href="#"
+														class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center gap-1"
+													>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															class="h-5 w-5"
+															fill="none"
+															viewBox="0 0 24 24"
+															stroke="currentColor"
+															stroke-width="2"
+														>
+															<path
+																stroke-linecap="round"
+																stroke-linejoin="round"
+																d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+															/>
+															<path
+																stroke-linecap="round"
+																stroke-linejoin="round"
+																d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+															/>
+														</svg>
+														View</a
+													>
+												</li>
+											</ul>
+											<div class="py-1">
+												<a
+													href="#"
+													class=" flex items-center gap-1 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+												>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														class="h-5 w-5"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+														stroke-width="2"
+													>
+														<path
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															d="M6 18L18 6M6 6l12 12"
+														/>
+													</svg>
+													Remove
+												</a>
+											</div>
+										</div>
+									{/if}
+								</svelte:fragment>
 							</Dropdown>
 						</td>
 					</tr>
@@ -239,13 +321,31 @@
 		</pre>
 
 		<h4 class="text-xl font-bold">Step 2</h4>
-		<p>Download the bellow file and upload them to the top-level root of your site directory.</p>
-		<a href="/pushNManagerWorker.js" download class="rounded-md bg-indigo-600 px-5 py-2 text-white shadow-sm hover:bg-indigo-700 flex gap-1 items-center my-3 w-[9.2rem]">
-			<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-			<path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-		</svg>
-		Download
-	</a>
+		<p>
+			Download the bellow file and upload them to the top-level root of your site directory. The
+			file name must be saved as <mark>'pushNManagerWorker.js'</mark>
+		</p>
+		<a
+			href="/pushNManagerWorker.js"
+			download
+			class="rounded-md bg-indigo-600 px-5 py-2 text-white shadow-sm hover:bg-indigo-700 flex gap-1 items-center my-3 w-[9.2rem]"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-5 w-5"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="2"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+				/>
+			</svg>
+			Download
+		</a>
 	</svelte:fragment>
 
 	<svelte:fragment slot="actions">

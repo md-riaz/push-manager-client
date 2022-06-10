@@ -16,7 +16,7 @@
 <main
 	class="{sidebarCollapsed
 		? 'ml-16'
-		: 'ml-64'} mt-14 p-5 min-h-screen dark:bg-gray-900 transition-[width, margin] ease-linear duration-100"
+		: 'ml-64'} mt-14 p-5 min-h-[calc(100vh_-_57px)] dark:bg-gray-900 transition-[width, margin] ease-linear duration-100"
 >
 	<slot />
 </main>
