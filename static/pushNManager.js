@@ -95,7 +95,7 @@ window.onload = function () {
 		.querySelector('body')
 		.insertAdjacentHTML(
 			'beforeend',
-			`<div id="pushManagerBellIcon" onclick="toggleSubscription()" style=" position: absolute; bottom: 15px; z-index: 9999999999; left: auto; right: 15px; cursor: pointer;"><svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 32 32" width="65" height="65"> <circle cx="16.1" cy="16" r="15.3" fill="#4f46e5"></circle> <path fill="#fff" d="M16.1 8a6 6 0 0 0-6 6v3.6l-.7.7c-.3.3-.4.7-.3 1.1.2.4.5.6.9.6h12c.4 0 .8-.2.9-.6.2-.4.1-.8-.2-1.1l-.7-.7V14c.1-3.3-2.6-6-5.9-6zm0 16a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z"></path> <circle cx="16.1" cy="16" r="12.8" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width=".8"></circle></svg></div>`
+			`<div id="pushManagerBellIcon" onclick="toggleSubscription()" style=" position: fixed; bottom: 15px; z-index: 9999999999; left: auto; right: 15px; cursor: pointer;"><svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 32 32" width="65" height="65"> <circle cx="16.1" cy="16" r="15.3" fill="#4f46e5"></circle> <path fill="#fff" d="M16.1 8a6 6 0 0 0-6 6v3.6l-.7.7c-.3.3-.4.7-.3 1.1.2.4.5.6.9.6h12c.4 0 .8-.2.9-.6.2-.4.1-.8-.2-1.1l-.7-.7V14c.1-3.3-2.6-6-5.9-6zm0 16a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z"></path> <circle cx="16.1" cy="16" r="12.8" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width=".8"></circle></svg></div>`
 		);
 };
 

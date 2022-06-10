@@ -9,7 +9,14 @@ self.addEventListener('push', (e) => {
 		icon: data.icon,
 		data: {
 			url: data.launch_url
-		}
+		},
+		actions: [
+			{
+				action: 'close',
+				title: 'Close',
+				icon: 'close.png'
+			}
+		]
 	});
 
 	e.waitUntil(promiseChain);
@@ -17,8 +24,16 @@ self.addEventListener('push', (e) => {
 
 self.addEventListener('notificationclick', function (event) {
 	const clickedNotification = event.notification;
-	clickedNotification.close();
-	console.log(event);
+
+	if (event.action) {
+		switch (event.action) {
+			case 'close':
+				console.log('Closing Notification...');
+				clickedNotification.close();
+				break;
+		}
+	}
+
 	// Do something as the result of the notification click
 	const promiseChain = clients.openWindow(event.notification.data.url);
 	event.waitUntil(promiseChain);
