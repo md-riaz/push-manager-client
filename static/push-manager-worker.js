@@ -6,7 +6,10 @@ self.addEventListener('push', (e) => {
 
 	const promiseChain = self.registration.showNotification(data.title, {
 		body: data.body,
-		icon: data.icon
+		icon: data.icon,
+		data: {
+			url: data.launch_url
+		}
 	});
 
 	e.waitUntil(promiseChain);
@@ -17,6 +20,6 @@ self.addEventListener('notificationclick', function (event) {
 	clickedNotification.close();
 	console.log(event);
 	// Do something as the result of the notification click
-	// const promiseChain = doSomething();
-	// event.waitUntil(promiseChain);
+	const promiseChain = clients.openWindow(event.notification.data.url);
+	event.waitUntil(promiseChain);
 });
