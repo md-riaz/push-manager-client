@@ -37,7 +37,7 @@ async function send() {
 
 	// Register Service Worker
 	console.log('Registering service worker...');
-	const register = await navigator.serviceWorker.register('/push-manager-worker.js', {
+	const register = await navigator.serviceWorker.register('/pushNManagerWorker.js', {
 		scope: '/'
 	});
 	console.log('Service Worker Registered...');
