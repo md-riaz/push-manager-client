@@ -18,7 +18,7 @@ function urlBase64ToUint8Array(base64String) {
 // subscribe the user to the push service
 const subscribePush = async () => {
 	if ('serviceWorker' in navigator) {
-		send().catch((err) => console.error(err));
+		return send().catch((err) => console.error(err));
 	}
 };
 
@@ -87,6 +87,7 @@ async function unsubscribe() {
 	if (response.ok) {
 		await subscription.unsubscribe();
 		console.log('Unsubscribed.');
+		return true;
 	}
 }
 
@@ -103,12 +104,15 @@ const toggleSubscription = () => {
 	let active = localStorage.getItem('pushManagerActive');
 
 	if (active === 'true') {
-		localStorage.setItem('pushManagerActive', false);
-		unsubscribePush();
-		alert('Unsubscribed From Notification');
+		if (unsubscribePush()) {
+			localStorage.setItem('pushManagerActive', false);
+			alert('Unsubscribed From Notification');
+		}
 	} else {
-		localStorage.setItem('pushManagerActive', true);
-		subscribePush();
-		alert('Subscribed to Notification');
+		const subs = subscribePush();
+		if (subs) {
+			localStorage.setItem('pushManagerActive', true);
+			alert('Subscribed to Notification');
+		}
 	}
 };
