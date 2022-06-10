@@ -12,9 +12,24 @@ self.addEventListener('push', (e) => {
 		},
 		actions: [
 			{
-				action: 'close',
-				title: 'Close',
-				icon: 'close.png'
+				action: 'coffee-action',
+				title: 'Coffee',
+				icon: '/demos/notification-examples/images/action-1-128x128.png'
+			},
+			{
+				action: 'doughnut-action',
+				title: 'Doughnut',
+				icon: '/demos/notification-examples/images/action-2-128x128.png'
+			},
+			{
+				action: 'gramophone-action',
+				title: 'gramophone',
+				icon: '/demos/notification-examples/images/action-3-128x128.png'
+			},
+			{
+				action: 'atom-action',
+				title: 'Atom',
+				icon: '/demos/notification-examples/images/action-4-128x128.png'
 			}
 		]
 	});
