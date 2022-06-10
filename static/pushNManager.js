@@ -25,7 +25,9 @@ const subscribePush = async () => {
 // unsubscribe the user from the push service
 const unsubscribePush = async () => {
 	if ('serviceWorker' in navigator) {
-		unsubscribe().catch((err) => console.error(err));
+		unsubscribe()
+			.then((r) => r)
+			.catch((err) => console.error(err));
 	}
 };
 
@@ -53,7 +55,7 @@ async function send() {
 
 	// Send Push Notification
 	console.log('Sending Push...');
-	await fetch(`${BASE_API_URI}/subscription`, {
+	const resp = await fetch(`${BASE_API_URI}/subscription`, {
 		method: 'POST',
 		body: JSON.stringify({
 			subscription: JSON.stringify(subscription),
@@ -63,7 +65,13 @@ async function send() {
 			'content-type': 'application/json'
 		}
 	});
-	console.log('Push Sent...');
+
+	if (resp.ok) {
+		console.log('Push Sent...');
+		return true;
+	}
+
+	return false;
 }
 
 // Unregister SW, Unregister Push
@@ -89,6 +97,8 @@ async function unsubscribe() {
 		console.log('Unsubscribed.');
 		return true;
 	}
+
+	return false;
 }
 
 window.onload = function () {
