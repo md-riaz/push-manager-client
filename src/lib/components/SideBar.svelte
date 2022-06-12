@@ -66,7 +66,7 @@
 											: ''}">{item.title}</span
 									>
 									<svg
-										class="w-6 h-6"
+										class="w-6 h-6 {sidebarCollapsed ? 'hidden' : ''}"
 										fill="currentColor"
 										viewBox="0 0 20 20"
 										xmlns="http://www.w3.org/2000/svg"

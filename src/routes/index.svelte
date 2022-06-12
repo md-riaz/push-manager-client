@@ -1,3 +1,8 @@
+<script>
+	import { isLoggedIn } from '../hooks/auth';
+	console.log($isLoggedIn);
+</script>
+
 <svelte:head>
 	<title>Node Push Manager</title>
 </svelte:head>
@@ -8,12 +13,21 @@
 			<img class="w-12 h-16 md:w-auto" src="./node-push.svg" alt="logo" />
 		</div>
 
-		<a
-			href="/login"
-			class="focus:outline-none lg:text-lg lg:font-bold focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 hidden md:block bg-transparent transition duration-150 ease-in-out hover:bg-indigo-600 hover:text-white rounded border border-indigo-700 text-indigo-700 px-4 sm:px-8 py-1 sm:py-3 text-sm"
-		>
-			Sign In
-		</a>
+		{#if $isLoggedIn}
+			<a
+				href="/dashboard"
+				class="focus:outline-none lg:text-lg lg:font-bold focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 hidden md:block bg-transparent transition duration-150 ease-in-out hover:bg-indigo-600 hover:text-white rounded border border-indigo-700 text-indigo-700 px-4 sm:px-8 py-1 sm:py-3 text-sm"
+			>
+				Dashboard
+			</a>
+		{:else}
+			<a
+				href="/login"
+				class="focus:outline-none lg:text-lg lg:font-bold focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 hidden md:block bg-transparent transition duration-150 ease-in-out hover:bg-indigo-600 hover:text-white rounded border border-indigo-700 text-indigo-700 px-4 sm:px-8 py-1 sm:py-3 text-sm"
+			>
+				Sign In
+			</a>
+		{/if}
 	</div>
 </nav>
 <div class="bg-red-500 dark:bg-transparent">
@@ -35,11 +49,6 @@
 				href="/register"
 				class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 lg:text-xl lg:font-bold  rounded text-white px-4 sm:px-10 border border-indigo-700 py-2 sm:py-4 text-sm"
 				>Get Started</a
-			>
-			<a
-				href="/dashboard"
-				class="ml-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 bg-transparent transition duration-150 ease-in-out hover:border-indigo-600 lg:text-xl lg:font-bold  hover:text-indigo-600 rounded border border-indigo-700 text-indigo-700 px-4 sm:px-10 py-2 sm:py-4 text-sm"
-				>Dashboard</a
 			>
 		</div>
 	</div>

@@ -67,6 +67,11 @@ export const sendRequest = async (loadFetch, action, method, body = null) => {
 		}
 
 		const req = await loadFetch(url, options);
+
+		if (!req.ok) {
+			throw new Error(req.statusText);
+		}
+
 		const response = await req.json();
 
 		// if error code is 401, means auth error, so redirect to login page
@@ -77,6 +82,8 @@ export const sendRequest = async (loadFetch, action, method, body = null) => {
 
 		return response;
 	} catch (e) {
+		browserRemove('authToken');
+		goto('/login');
 		return null;
 	}
 };
