@@ -74,9 +74,12 @@
 
 <section class="grid md:grid-cols-2">
 	<a href="/" class="hidden bg-indigo-600 md:flex min-h-screen flex-col justify-center">
-		<img src="./node-push.png" alt="" width="300" class="mx-auto" />
+		<img src="./node-push.svg" alt="" width="300" class="mx-auto" />
 	</a>
 	<div class="flex min-h-screen flex-col justify-center bg-white">
+		<div class="mx-auto w-full max-w-[30rem] px-10">
+			<img src="./node-push.svg" alt="" width="200" class="md:hidden" />
+		</div>
 		<div class="mx-auto w-full max-w-[30rem] p-10">
 			<form action="" method="post" on:submit|preventDefault={handleLogin}>
 				<h4 class="mb-14 text-2xl font-bold capitalize">Login to your account</h4>
