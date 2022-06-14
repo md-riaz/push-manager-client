@@ -23,7 +23,7 @@
 	import { BASE_API_URI } from '$lib/constants';
 	import { browserSet } from '$lib/utils';
 	import { addToast } from '$lib/components/Toast/toastStore';
-	import { isLoggedIn } from '../hooks/auth';
+	import { isLoggedIn, user } from '../hooks/auth';
 
 	let email = '',
 		password = '',
@@ -56,6 +56,7 @@
 			if (res.error === 0) {
 				browserSet('authToken', res.token);
 				isLoggedIn.set(true);
+				user.set(res.data);
 				goto('/dashboard');
 			} else {
 				addToast(res.message, 'error');
