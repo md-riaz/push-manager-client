@@ -1,6 +1,5 @@
 <script>
 	import { isLoggedIn } from '../hooks/auth';
-	console.log($isLoggedIn);
 </script>
 
 <svelte:head>

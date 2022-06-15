@@ -20,7 +20,6 @@
 
 <script>
 	export let Permissions = [];
-	console.log('p', Permissions);
 </script>
 
 <svelte:head>
