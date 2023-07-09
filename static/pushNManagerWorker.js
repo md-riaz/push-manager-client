@@ -1,1 +1,1 @@
-importScripts('http://localhost:3000/push-manager-worker.js');
+importScripts('https://push-manager.netlify.app/push-manager-worker.js');
