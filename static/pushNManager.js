@@ -1,4 +1,4 @@
-const BASE_API_URI = 'https://push-manager-api.cleverapps.io/api';
+const BASE_API_URI = 'https://push-notification.mdriaz.com/api';
 const publicVapidKey =
 	'BJthRQ5myDgc7OSXzPCMftGw-n16F7zQBEN7EUD6XxcfTTvrLGWSIG7y_JxiWtVlCFua0S8MTB5rPziBqNx1qIo';
 
